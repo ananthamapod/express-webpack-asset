@@ -1,16 +1,6 @@
 var fs = require('fs')
 var path = require('path')
 
-function extend(target) {
-  var sources = [].slice.call(arguments, 1);
-  sources.forEach(function (source) {
-    for (var prop in source) {
-      target[prop] = source[prop];
-    }
-  });
-  return target;
-}
-
 module.exports = function (manifestPath, options) {
   var manifest
   var isManifestLoaded = false
@@ -26,10 +16,10 @@ module.exports = function (manifestPath, options) {
       if (fs.statSync(manifestPath).isDirectory()) {
         var manifestFiles = fs.readdirSync(manifestPath);
         if (manifestFiles.length === 0) {
-          console.error('there are no asset manifest', e)
+          console.error('there are no asset manifests', e)
         }
-        manifestFiles.forEach(function (manifest) {
-          extend(data, JSON.parse(fs.readFileSync(path.resolve(manifestPath, manifest), 'utf8')));
+        data = manifestFiles.reduce(function (fullManifest, manifest) {
+          return Object.assign(fullManifest, JSON.parse(fs.readFileSync(path.resolve(manifestPath, manifest), 'utf8')));
         });
       } else {
         data = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
