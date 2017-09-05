@@ -14,7 +14,7 @@ module.exports = function (manifestPath, options) {
       var data = {};
 
       if (fs.statSync(manifestPath).isDirectory()) {
-        var manifestFiles = fs.readdirSync(manifestPath);
+        var manifestFiles = fs.readdirSync(manifestPath).sort();
         if (manifestFiles.length === 0) {
           console.error('there are no asset manifests', e)
         }

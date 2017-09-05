@@ -40,7 +40,7 @@ app.use(webpackAssets('./config', {
 	devMode: true/false
 }));
 ```
-Please bear in mind that result of extend will override the object properties with equal names w.r.t. order returned by Nodejs.fs.readDir.
+Please bear in mind that when using multiple files, each successive manifest will overwrite any properties that have matching names. The manifests are linked in alphabetical order by manifest name.
 
 ## Options
 
